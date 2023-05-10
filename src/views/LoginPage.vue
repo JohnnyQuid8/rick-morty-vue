@@ -27,6 +27,7 @@ export default defineComponent({
   },
 
   setup() {
+    // Todo: type as much of the app possible 
     const state = {
       username: '',
       password: '',

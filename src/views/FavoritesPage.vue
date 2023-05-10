@@ -1,5 +1,7 @@
 <template>
   <HeaderComponent></HeaderComponent>
+  <!-- Todo:
+  Should have a reusable chracter list component for this and main page -->
   <div v-for="(character, index) in favoritesCharacters" :key="index">
     <p>{{ character.name }}</p>
     <p>{{ character.gender }}</p>
@@ -26,6 +28,7 @@ import { characterService } from '../modules/characterList/charactesList.service
 // import type { Characters } from '../types/CharactersProps'
 
 import { store } from '../store/store'
+import { Characters } from '../types/CharactersProps'
 
 export default {
   components: {
@@ -37,7 +40,10 @@ export default {
 
   setup() {
     const state = {
-      selectedCharacter: null as null | Object,
+      // Todo:
+      // Avoid using Object, Function, Array as those are loose types,
+      // set type explicitly 
+      selectedCharacter: null as null | Characters,
       characters: [],
       index: 0,
       validator: true
@@ -69,6 +75,7 @@ export default {
       } else {
         this.state.selectedCharacter = null
       }
+      
     }
   }
 }

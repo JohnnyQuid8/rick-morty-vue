@@ -19,7 +19,7 @@ export default defineComponent({
   name: 'MyModal',
   props: {
     character: {
-      type: Object,
+      // type: Object,
       required: false
     }
   },
@@ -53,6 +53,10 @@ export default defineComponent({
       return (this.state.visible = true)
     },
     addFavorite(character: Object) {
+      // Todo:
+      // You should probably not have state.favChar and store.favChar
+      // probably one of those two is enough?
+      
       this.state.favoritesCharacters = [character]
       store.favoritesCharacters.push(...this.state.favoritesCharacters)
       console.log(
