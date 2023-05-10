@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <a-modal :open="state.visible" title="Basic Modal" @ok="handleOk">
-      <p>{{ character[0] }}</p>
-      <p>{{ character[1] }}</p>
-      <p>{{ character[2] }}</p>
-      <img :src="character[3]" />
+    <a-modal :open="state.visible" title="Basic Modal" @ok="handleOk" class="modal">
+      <a-form>
+        <a-form-item label="Name">
+          <a-input :value="character.name" />
+        </a-form-item>
+      </a-form>
     </a-modal>
   </div>
   <p>jdjsa</p>
@@ -22,12 +23,16 @@ export default defineComponent({
     character: {
       type: Object,
       required: true
+    },
+    modalVisible: {
+      type: Boolean,
+      required: true
     }
   },
 
   setup(props) {
     const state = reactive({
-      visible: true as boolean,
+      visible: false as boolean,
       favoritesCharacters: []
     })
 
@@ -56,3 +61,9 @@ export default defineComponent({
   }
 })
 </script>
+<style>
+.modal {
+  position: absolute;
+  width: 100%;
+}
+</style>

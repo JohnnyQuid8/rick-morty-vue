@@ -12,7 +12,7 @@
         @click="setCharacter(character)"
       />
     </div>
-    <CharacterInfoModal v-if="state.selectedCharacter" :character="state.selectedCharacter" />
+    <MyModal v-if="state.selectedCharacter" :character="state.selectedCharacter" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@ import { characterService } from '../modules/characterList/charactesList.service
 import SearchBar from '@/components/SearchBar.vue'
 import HeaderComponent from '@/components/HeaderComponent.vue'
 import type { Characters } from '../types/CharactersProps'
-import CharacterInfoModal from '../components/CharacterInfoModal.vue'
+import MyModal from '../components/MyModal.vue'
 
 export default defineComponent({
   name: 'MainPage',
@@ -30,7 +30,7 @@ export default defineComponent({
   components: {
     HeaderComponent,
     SearchBar,
-    CharacterInfoModal
+    MyModal
   },
 
   setup() {

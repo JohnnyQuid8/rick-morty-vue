@@ -1,20 +1,24 @@
 <template>
   <HeaderComponent></HeaderComponent>
   <div v-for="(character, index) in favoritesCharacters" :key="index">
-    <p>{{ character[0] }}</p>
-    <p>{{ character[1] }}</p>
-    <p>{{ character[2] }}</p>
-    <img :src="character[3]" />
+    <p>{{ character.name }}</p>
+    <p>{{ character.gender }}</p>
+    <p>{{ character.id }}</p>
+
+    <img :src="character.image" />
     <button @click="deleteCharacter(index)">DELETE</button>
 
     <button @click="setCharacter(character)">EDIT</button>
-    <EditCharacterModal v-if="state.selectedCharacter" :character="state.selectedCharacter" />
   </div>
+  <EditCharacterModal
+    :modalVisible="state.selectedCharacter !== null"
+    :character="state.selectedCharacter"
+  />
 
   <h1>My Favorites</h1>
 </template>
 
-<script>
+<script lang="ts">
 import EditCharacterModal from '../components/EditCharacterModal.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import { characterService } from '../modules/characterList/charactesList.service'
@@ -33,9 +37,10 @@ export default {
 
   setup() {
     const state = {
-      selectedCharacter: null,
+      selectedCharacter: null as null | Object,
       characters: [],
-      index: 0
+      index: 0,
+      validator: true
     }
 
     const fetchItAll = () => {
@@ -54,10 +59,10 @@ export default {
     }
   },
   methods: {
-    deleteCharacter(index) {
+    deleteCharacter(index: number) {
       this.favoritesCharacters.splice(index, 1)
     },
-    setCharacter(character) {
+    setCharacter(character: Object) {
       if (character) {
         this.state.selectedCharacter = character
         console.log(character)

@@ -7,8 +7,8 @@
       type="text"
       class="search"
     />
-    <Button @click="setCategory('name')">NAME</Button>
-    <Button @click="setCategory('species')">SPECIES</Button>
+    <button @click="setCategory('name')">NAME</button>
+    <button @click="setCategory('species')">SPECIES</button>
 
     <select v-model="state.status">
       <option value="dead">DEAD</option>
