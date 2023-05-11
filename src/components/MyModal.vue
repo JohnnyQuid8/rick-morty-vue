@@ -13,25 +13,21 @@
 <script lang="ts">
 import { defineComponent, watch, reactive } from 'vue'
 import { store } from '../store/store'
-// import { Characters } from '../types/CharactersProps'
 
 export default defineComponent({
   name: 'MyModal',
   props: {
     character: {
-      // type: Object,
       required: false
     }
   },
 
   setup(props) {
     const state = reactive({
-      visible: false as boolean,
-      favoritesCharacters: [] as Object[]
+      visible: false as boolean
     })
 
     const handleOk = (e: MouseEvent) => {
-      console.log(state.visible)
       state.visible = false
     }
 
@@ -53,20 +49,12 @@ export default defineComponent({
       return (this.state.visible = true)
     },
     addFavorite(character: Object) {
-      // Todo:
-      // You should probably not have state.favChar and store.favChar
-      // probably one of those two is enough?
-      
-      this.state.favoritesCharacters = [character]
-      store.favoritesCharacters.push(...this.state.favoritesCharacters)
-      console.log(
-        this.state.favoritesCharacters,
-        '         ',
-        character,
-        '         ',
-        store.favoritesCharacters
-      )
+      // store.favoritesCharacters = [character]
+      store.favoritesCharacters.push(character)
     }
+    // Todo:
+    // You should probably not have state.favChar and store.favChar
+    // probably one of those two is enough?
   }
 })
 </script>

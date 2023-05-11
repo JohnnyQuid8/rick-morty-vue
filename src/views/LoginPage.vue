@@ -29,11 +29,11 @@ export default defineComponent({
   setup() {
     // Todo: type as much of the app possible 
     const state = {
-      username: '',
-      password: '',
-      DUMMY_USERNAME: 'FWW',
-      DUMMY_PASSWORD: '123',
-      login: false
+      username: '' as string,
+      password: '' as string | number,
+      DUMMY_USERNAME: 'FWW' as string,
+      DUMMY_PASSWORD: '123' as string,
+      login: false as boolean
     }
 
     return state

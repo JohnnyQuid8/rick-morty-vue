@@ -2,20 +2,12 @@
   <HeaderComponent></HeaderComponent>
   <!-- Todo:
   Should have a reusable chracter list component for this and main page -->
-  <div v-for="(character, index) in favoritesCharacters" :key="index">
-    <p>{{ character.name }}</p>
-    <p>{{ character.gender }}</p>
-    <p>{{ character.id }}</p>
+  <CharacterList :characters="favoritesCharacters" />
 
-    <img :src="character.image" />
-    <button @click="deleteCharacter(index)">DELETE</button>
+  <button @click="deleteCharacter(index)">DELETE</button>
 
-    <button @click="setCharacter(character)">EDIT</button>
-  </div>
-  <EditCharacterModal
-    :modalVisible="state.selectedCharacter !== null"
-    :character="state.selectedCharacter"
-  />
+  <button @click="setCharacter(character)">EDIT</button>
+  <EditCharacterModal :character="state.selectedCharacter" />
 
   <h1>My Favorites</h1>
 </template>
@@ -24,16 +16,19 @@
 import EditCharacterModal from '../components/EditCharacterModal.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import { characterService } from '../modules/characterList/charactesList.service'
+import CharacterList from '../components/CharacterList.vue'
 
 // import type { Characters } from '../types/CharactersProps'
+import type ICharacter from '../modules/characterList/characters.types'
 
 import { store } from '../store/store'
-import { Characters } from '../types/CharactersProps'
+// import { Characters } from '../types/CharactersProps'
 
 export default {
   components: {
     HeaderComponent,
-    EditCharacterModal
+    EditCharacterModal,
+    CharacterList
   },
 
   name: 'FavoritesPage',
@@ -42,8 +37,8 @@ export default {
     const state = {
       // Todo:
       // Avoid using Object, Function, Array as those are loose types,
-      // set type explicitly 
-      selectedCharacter: null as null | Characters,
+      // set type explicitly
+      selectedCharacter: null as null | ICharacter,
       characters: [],
       index: 0,
       validator: true
@@ -75,7 +70,6 @@ export default {
       } else {
         this.state.selectedCharacter = null
       }
-      
     }
   }
 }

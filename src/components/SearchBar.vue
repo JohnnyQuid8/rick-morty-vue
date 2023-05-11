@@ -47,8 +47,8 @@ export default defineComponent({
       searchTerm: '' as string | null,
       category: 'name' as keyof Characters,
       status: '' as string,
-      gender: '' as string,
-      filteredCharacters: [] as Characters[]
+      gender: '' as string
+      // filteredCharacters: [] as Characters[]
     })
 
     const setCategory = (category: keyof Characters) => {
@@ -57,14 +57,9 @@ export default defineComponent({
 
     const findSearchTerm = (event: any) => {
       if (event.target.value) {
-        console.log(state.searchTerm, state.status, state.gender)
         state.searchTerm = event.target.value
-        return props.onSearchInputChanged(
-          state.category,
-          state.searchTerm,
-          state.status,
-          state.gender.toLowerCase()
-        )
+        console.log(state)
+        return props.onSearchInputChanged(state)
       }
     }
 
