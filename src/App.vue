@@ -1,13 +1,11 @@
 <template>
-  <header>
-    <RouterView />
-  </header>
+  <RouterView />
 </template>
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import LoginPage from './views/LoginPage.vue'
-import MainPage from './views/MainPage.vue'
+// import LoginPage from './views/LoginPage.vue'
+// import MainPage from './views/MainPage.vue'
 
 export default {
   name: 'App',

@@ -1,142 +1,205 @@
 <template>
-  <!-- TODO: use single tag syntax whenever possible -->
-  <!-- <HeaderComponent></HeaderComponent> -->
-  <HeaderComponent />
-  <div class="favorites-container">
-    <button><RouterLink to="/favorites" class="favorites-link">FAVORITES</RouterLink></button>
-  </div>
-  <!-- INFO: Single tag wooho :D -->
-  <SearchBar :onSearchInputChanged="onSearchInputChanged" :characters="state.characters" />
-  <!-- Todo: Chracters should really be a component on its own,
-  Ideally you would store all the state in parent component (MainPage), and pass it down
-  to so called dumb, pure components, that only take data as props, and compose them into ui -->
-  <div class="characters">
-    <CharacterList :characters="state.characters" />
-    <!-- <div v-for="(character, index) in state.characters" :key="index" class="characters__list">
-      <img
-        :src="character.image"
-        class="characters__list--image"
-        @click="setCharacter(character)"
-      />
-    </div> -->
-    <!-- Todo: Bug je zato sto imas v-if, modal nije renderovan dok ne selektujes char
-    kad selektujes char, tek onda dobija prvi put character prop, i on je vec setovan incijalno, i zato se unutar 
-    my modal ne okidaju promene, ako obrise v-if videces da radi -->
+  <div class="logo-box"><img src="../assets/images/logo.webp" class="logo-img" /></div>
+
+  <div class="container">
+    <div class="characters" @click.prevent="goCharacters">
+      <h2 class="characters-header">Characters</h2>
+      <img src="../assets/images/charactersImg.jpg" class="characters-img" />
+    </div>
+    <div class="bottom-half">
+      <div class="episodes" @click.prevent="goEpisodes" to="episodes">
+        <h2 class="episodes-header">Episodes</h2>
+        <img src="../assets/images/episodesImg.jpg" class="episodes-img" />
+      </div>
+      <div class="locations" @click.prevent="goLocations" to="locations">
+        <h2 class="locations-header">Locations</h2>
+        <img src="../assets/images/locationsImg.jpg" class="locations-img" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-import { characterService } from '../modules/characterList/charactesList.service'
-import SearchBar from '@/components/SearchBar.vue'
-import HeaderComponent from '@/components/HeaderComponent.vue'
-import MyModal from '../components/MyModal.vue'
-import CharacterList from '../components/CharacterList.vue'
-import type ICharacter from '../modules/characterList/characters.types'
-
-interface IMainPageProps {
-  characters: ICharacter[]
-  selectedCharacter: ICharacter | null
-}
+import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'MainPage',
 
-  components: {
-    HeaderComponent,
-    SearchBar,
-    MyModal,
-    CharacterList
-  },
-
   setup() {
-    // Todo:
-    // Use generic types, 'reactive<ImainPageProps>'' tells us
-    // that the return value of 'reactive' function
-    // is expected to be 'IMainPageProps'
+    const router = useRouter()
 
-    const state = reactive<IMainPageProps>({
-      characters: [] as ICharacter[],
-      selectedCharacter: null as null | ICharacter
-    })
-
-    const fetchItAll = (): void => {
-      characterService.fetchAllCharacters().then((response) => {
-        state.characters = response
-      })
+    const goLocations = () => {
+      router.push('/locations')
     }
 
-    // Todo:
-    // Functions should ideally take 2/3 arguments max, otherwise its
-    // a much better solution to pack it all up into a single object
-    // ie:
-
-    // const onSearchInputChanged(searchParams: IGetCharactersUrlParams)
-
-    // then also set the functions in characterService/Repo, take the same object as an argument
-    const onSearchInputChanged = (searchParams: IGetCharactersUrlParams) => {
-      characterService.fetchAllCharacters(searchParams).then((res) => (state.characters = res))
+    const goEpisodes = () => {
+      router.push('/episodes')
     }
 
-    fetchItAll()
-
+    const goCharacters = () => {
+      router.push('/characters')
+    }
     return {
-      state,
-      onSearchInputChanged
+      goLocations,
+      goEpisodes,
+      goCharacters
     }
   }
-
-  // methods: {
-  //   setCharacter(character: Characters) {
-  //     // if (character) {
-  //     //   this.state.selectedCharacter = character
-  //     // } else {
-  //     //   this.state.selectedCharacter = null
-  //     // }
-
-  //     // Todo:
-  //     // Few cleaner solutions to the problem above
-  //     // this.state.selectedCharacter = character ? character : null;
-  //     this.state.selectedCharacter = character || null; // Todo: Investigate ?? and || operators and their effects when used like this
-
-  //     // note the type of character argument is Characters, but you are checking if its a character inside a func.
-  //     // that implies that typing of character arg is wrong
-  //   }
-  // }
 })
 </script>
 
-<style lang="scss" scope>
-.favorites-container {
-  position: fixed;
-  right: 0;
-  top: 1.5rem;
+<style lang="scss" scoped>
+@import '@/styles/mixins';
+@import '@/styles/variables';
+
+@keyframes scale {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  100% {
+    -webkit-transform: scale(1.25);
+    transform: scale(1.25);
+  }
+}
+@keyframes scaleDown {
+  0% {
+    -webkit-transform: scale(1.25);
+
+    transform: scale(1.25);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+
+    transform: scale(1);
+  }
+}
+.logo-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999999999;
+  overflow: hidden;
+  width: 25%;
+  transform: translate(-50%, -50%);
 }
 
-.favorites-link {
-  text-decoration: none;
-  color: black;
-} // Todo: always an enter after a block of code
-.characters {
+.logo-img {
+  width: 100%;
+  height: 100%;
+}
+.container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+}
+.characters-header {
+  position: fixed;
+  top: 25%;
+  left: 51%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.8rem;
+  z-index: 5;
+}
+.episodes-header {
+  position: fixed;
+  top: 75%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.8rem;
+  z-index: 5;
+}
+.locations-header {
+  position: fixed;
+  top: 75%;
+  right: 18%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 1.8rem;
+  z-index: 5;
+}
+.characters {
+  height: 50vh;
+  display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+.bottom-half {
+  height: 50vh;
+  display: flex;
+  overflow: hidden;
+}
 
-  @media only screen and (min-width: 600px) {
-    justify-content: flex-start;
-  }
+.episodes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+.locations {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+.characters-img {
+  filter: brightness(0.2);
+  animation: scaleDown 0.4s linear;
+  animation-fill-mode: forwards;
+  width: 100%;
+  height: 100vh;
+  padding-top: 10rem;
+  transition: all 0.4s linear;
+}
+.characters-img:hover {
+  filter: brightness(0.7);
 
-  &__list {
-    width: 100%;
-    padding: 1.5rem;
-    @media only screen and (min-width: 600px) {
-      max-width: 10rem;
-    }
+  animation: scale 0.4s linear;
+  animation-fill-mode: forwards;
+}
+.episodes-img {
+  filter: brightness(0.2);
 
-    &--image {
-      width: 100%;
-    }
-  }
+  animation: scaleDown 0.4s linear;
+  animation-fill-mode: forwards;
+  width: 100%;
+  height: 100%;
+}
+.episodes-img:hover {
+  filter: brightness(0.7);
+
+  animation: scale 0.4s linear;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+}
+.locations-img {
+  filter: brightness(0.2);
+
+  animation: scaleDown 0.4s linear;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.locations-img:hover {
+  filter: brightness(0.7);
+
+  overflow: hidden;
+  animation: scale 0.4s linear;
+  animation-fill-mode: forwards;
 }
 </style>

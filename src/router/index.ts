@@ -1,16 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginPage from '@/views/LoginPage.vue'
 import MainPage from '@/views/MainPage.vue'
-import FavoritesPage from '@/views/FavoritesPage.vue'
-
+import LocationsPage from '@/views/LocationsPage.vue'
+import EpisodesPage from '@/views/EpisodesPage.vue'
+import CharactersPage from '@/views/CharactersPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/login', component: LoginPage },
+    // { path: '/episodes', component: EpisodesPage },
     { path: '/mainpage', component: MainPage },
-    { path: '/favorites', component: FavoritesPage },
-    { path: '/logout', component: LoginPage },
-    { path: '/', redirect: '/login' },
+    { path: '/characters', component: CharactersPage},
+    { path: '/locations', component: LocationsPage },
+    { path: '/episodes', component: EpisodesPage },
+    { path: '/', redirect: '/mainpage' }
   ]
 })
 

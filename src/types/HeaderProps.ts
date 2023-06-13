@@ -1,1 +1,0 @@
-// This should go into header component, it does not require a file for itself

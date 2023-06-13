@@ -22,6 +22,6 @@ export default interface ICharacter {
   gender?: string
   image?: string
   location?: { name: string }
-  origin?: {}
+  origin?: { name: string }
   url?: string
 }
